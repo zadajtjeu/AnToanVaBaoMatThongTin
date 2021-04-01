@@ -1,32 +1,72 @@
-/**
- * Chuong trinh chuyen doi he co so trong C
- */
- 
-#include <bits/stdc++.h>
-void convertNumber(int a, int n, int &count, int repre[]) {
-    int i=0;
-    while(a>0)
+#include <stdio.h>
+#include <stdlib.h>
+
+void convert_to_x_base(int num, int base)
+{    
+    int rem;
+    // base condition
+    if (num <= 0)
     {
-        repre[i] = a%n;
-        //printf("%d\n", a%n);
-        a = a/n;
-        i++;
+        return;
     }
-    count = i;
+    else
+    {
+        rem = num % base; // get the rightmost digit        
+        convert_to_x_base(num/base, base);  // recursive call        
+        if(base == 16 && rem >= 10)
+        {
+            printf("%c", rem+55);
+        }
+        else
+        {
+            printf("%d", rem);
+        }
+    }
 }
- 
-/**
- * Ham main
- */
-int main() {
-    int a = 34;
-    int count,  repre[100];
-    convertNumber(a, 7, count, repre);
-    printf("%d(10) = ", a);
-    for (int i = count-1; i >= 0; --i)
+
+int main()
+{
+    int num, choice, base;
+
+    while(1)
     {
-        printf("%d", repre[i]);
-    }
-    printf("(7)\n");
-    return 1;
+        printf("Select conversion: \n\n");
+        printf("1. Decimal to binary. \n");
+        printf("2. Decimal to octal. \n");
+        printf("3. Decimal to hexadecimal. \n");              
+        printf("4. Exit. \n");
+
+        printf("\nEnter your choice: \n");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+            case 1:
+                base = 2;
+                break;
+            case 2:
+                base = 8;
+                break;              
+            case 3:
+                base = 16;
+                break;
+            case 4:
+                printf("Exiting ...");
+                exit(0);
+            default:
+                printf("Invalid choice.\n\n");
+                continue;
+        }
+
+        printf("Enter a number: \n");
+        scanf("%d", &num);
+
+        printf("Result = ");
+
+        convert_to_x_base(num, base);
+
+        printf("\n\n");
+    }        
+
+    return 0; // return 0 to operating system
 }
